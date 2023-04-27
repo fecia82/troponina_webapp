@@ -1,37 +1,65 @@
-const form = document.getElementById('form');
-const resultado = document.getElementById('resultado');
-
-form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const tipo = document.getElementById('tipo').value;
-    const concentracion_0h = parseFloat(document.getElementById('concentracion_0h').value);
-    const concentracion_1h = parseFloat(document.getElementById('concentracion_1h').value);
-
-    const delta = concentracion_1h - concentracion_0h;
-    const valores = getValores(tipo);
-
-    if (concentracion_0h < valores.veryLow || (concentracion_0h < valores.low && delta < valores.no1hDelta)) {
-        resultado.textContent = 'Rule-out (verde)';
-    } else if (concentracion_0h >= valores.high || delta >= valores.delta1h) {
-        resultado.textContent = 'Rule-in (amarillo)';
-    } else {
-        resultado.textContent = 'Observación';
-    }
-
-    resultado.classList.remove('hidden');
+window.addEventListener('load', () => {
+    document.getElementById('modal').classList.add('hidden');
 });
 
-function getValores(tipo) {    const valores = {
-    elecsys: { veryLow: 5, low: 12, no1hDelta: 3, high: 52, delta1h: 5 },
-    architect: { veryLow: 4, low: 5, no1hDelta: 2, high: 64, delta1h: 6 },
-    centaur: { veryLow: 3, low: 6, no1hDelta: 3, high: 120, delta1h: 12 },
-    access: { veryLow: 4, low: 5, no1hDelta: 4, high: 50, delta1h: 15 },
-    clarity: { veryLow: 1, low: 2, no1hDelta: 1, high: 30, delta1h: 6 },
-    vitros: { veryLow: 1, low: 2, no1hDelta: 1, high: 40, delta1h: 4 },
-    pathfast: { veryLow: 3, low: 4, no1hDelta: 3, high: 90, delta1h: 20 },
-    triagetrue: { veryLow: 4, low: 5, no1hDelta: 3, high: 60, delta1h: 8 },
-};
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('form');
+    const tipo = document.getElementById('tipo');
 
-return valores[tipo];
-}
+    const opciones = [
+        { nombre: 'hs-cTn T (Elecsys; Roche)', valores: [5, 12, 3, 52, 5] },
+        { nombre: 'hs-cTn I (Architect; Abbott)', valores: [4, 5, 2, 64, 6] },
+        { nombre: 'hs-cTn I (Centaur; Siemens)', valores: [3, 6, 3, 120, 12] },
+        { nombre: 'hs-cTn I (Access; Beckman Coulter)', valores: [4, 5, 4, 50, 15] },
+        { nombre: 'hs-cTn I (Clarity; Singulex)', valores: [1, 2, 1, 30, 6] },
+        { nombre: 'hs-cTn I (Vitros; Clinical Diagnostics)', valores: [1, 2, 1, 40, 4] },
+        { nombre: 'hs-cTn I (Pathfast; LSI Medience)', valores: [3, 4, 3, 90, 20] },
+        { nombre: 'hs-cTn I (TriageTrue; Quidel)', valores: [4, 5, 3, 60, 8] }
+    ];
 
+    opciones.forEach(opcion => {
+        const opt = document.createElement('option');
+        opt.value = opcion.valores;
+        opt.textContent = opcion.nombre;
+        tipo.appendChild(opt);
+    });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const concentracion0h = parseFloat(document.getElementById('concentracion_0h').value);
+        const concentracion1h = parseFloat(document.getElementById('concentracion_1h').value);
+        const valores = tipo.value.split(',').map(parseFloat);
+
+        const categoria = calcularCategoria(concentracion0h, concentracion1h, valores);
+
+        const resultadoDiv = document.getElementById('resultado');
+        resultadoDiv.className = categoria;
+        resultadoDiv.textContent = categoria === 'rule-out' ? 'Rule-out' : (categoria === 'rule-in' ? 'Rule-in' : 'Observación');
+
+        // Mostrar el modal
+        const modal = document.getElementById('modal');
+        modal.classList.remove('hidden');
+    });
+
+    function calcularCategoria(concentracion0h, concentracion1h, valores) {
+        if (concentracion0h < valores[0] || (concentracion0h < valores[1] && Math.abs(concentracion1h - concentracion0h) < valores[2])) {
+            return 'rule-out';
+        } else if (concentracion0h >= valores[3] || Math.abs(concentracion1h - concentracion0h) >= valores[4]) {
+            return 'rule-in';
+        } else {
+            return 'observation';
+        }
+    }
+});
+
+// Cerrar el modal al hacer clic en la "X"
+document.getElementById('close').addEventListener('click', () => {
+    document.getElementById('modal').classList.add('hidden');
+});
+
+// Cerrar el modal y reiniciar el formulario al hacer clic en "Calcular otro paciente"
+document.getElementById('recalcular').addEventListener('click', () => {
+    document.getElementById('modal').classList.add('hidden');
+    document.getElementById('form').reset();
+});

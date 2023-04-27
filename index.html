@@ -3,33 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Troponina T Ultrasensible</title>
+    <title>Algoritmo 0-1h</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Troponina T Ultrasensible</h1>
-    <form id="form">
-        <label for="tipo">Tipo de determinación:</label>
-        <select id="tipo" name="tipo">
-            <option value="elecsys">Elecsys (Roche)</option>
-            <option value="architect">Architect (Abbott)</option>
-            <option value="centaur">Centaur (Siemens)</option>
-            <option value="access">Access (Beckman Coulter)</option>
-            <option value="clarity">Clarity (Singulex)</option>
-            <option value="vitros">Vitros (Clinical Diagnostics)</option>
-            <option value="pathfast">Pathfast (LSI Medience)</option>
-            <option value="triagetrue">TriageTrue (Quidel)</option>
-        </select>
-        <br>
-        <label for="concentracion_0h">Concentración 0h:</label>
-        <input type="number" id="concentracion_0h" name="concentracion_0h" required>
-        <br>
-        <label for="concentracion_1h">Concentración 1h:</label>
-        <input type="number" id="concentracion_1h" name="concentracion_1h" required>
-        <br>
-        <button type="submit">Evaluar</button>
-    </form>
-    <div id="resultado" class="hidden"></div>
+    <div class="container">
+        <img src="logo.png" alt="Logo" class="logo">
+        <h1>Algoritmo 0-1h</h1>
+        <form id="form">
+            <div class="input-group">
+                <label for="concentracion_0h">0h</label>
+                <input type="number" step="any" id="concentracion_0h" required>
+            </div>
+            <div class="input-group">
+                <label for="concentracion_1h">1h</label>
+                <input type="number" step="any" id="concentracion_1h" required>
+            </div>
+            <div class="input-group">
+                <label for="tipo">Tipo de determinación:</label>
+                <select id="tipo"></select>
+            </div>
+            <button type="submit">Calcular</button>
+        </form>
+        <p class="disclaimer">
+            These algorithms should always be integrated with a detailed clinical assessment and 12-lead ECG, and repeat blood sampling is mandatory in case of ongoing or recurrent chest pain.
+        </p>
+        <p class="citation">
+            ESC Guidelines for the management of acute coronary syndromes in patients presenting without persistent ST-segment elevation: The Task Force for the management of acute coronary syndromes in patients presenting without persistent ST-segment elevation of the European Society of Cardiology (ESC), European Heart Journal, Volume 42, Issue 14, 7 April 2021, Pages 1289–1367, <a href="https://doi.org/10.1093/eurheartj/ehaa575">https://doi.org/10.1093/eurheartj/ehaa575</a>
+        </p>
+        
+    </div>
+
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <span id="close" class="close">&times;</span>
+            <div id="resultado"></div>
+            <button id="recalcular">Calcular otro paciente</button>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
+
+
