@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troponina T Ultrasensible</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Troponina T Ultrasensible</h1>
+    <form id="form">
+        <label for="tipo">Tipo de determinación:</label>
+        <select id="tipo" name="tipo">
+            <option value="elecsys">Elecsys (Roche)</option>
+            <option value="architect">Architect (Abbott)</option>
+            <option value="centaur">Centaur (Siemens)</option>
+            <option value="access">Access (Beckman Coulter)</option>
+            <option value="clarity">Clarity (Singulex)</option>
+            <option value="vitros">Vitros (Clinical Diagnostics)</option>
+            <option value="pathfast">Pathfast (LSI Medience)</option>
+            <option value="triagetrue">TriageTrue (Quidel)</option>
+        </select>
+        <br>
+        <label for="concentracion_0h">Concentración 0h:</label>
+        <input type="number" id="concentracion_0h" name="concentracion_0h" required>
+        <br>
+        <label for="concentracion_1h">Concentración 1h:</label>
+        <input type="number" id="concentracion_1h" name="concentracion_1h" required>
+        <br>
+        <button type="submit">Evaluar</button>
+    </form>
+    <div id="resultado" class="hidden"></div>
+    <script src="script.js"></script>
+</body>
+</html>
