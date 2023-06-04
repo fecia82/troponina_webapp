@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const tipo = document.getElementById('tipo');
 
     const opciones = [
+        { nombre:  'hs-cTn I (Architect; Abbott)', valores: [4, 5, 2, 64, 6] },
         { nombre: 'hs-cTn T (Elecsys; Roche)', valores: [5, 12, 3, 52, 5] },
-        { nombre: 'hs-cTn I (Architect; Abbott)', valores: [4, 5, 2, 64, 6] },
         { nombre: 'hs-cTn I (Centaur; Siemens)', valores: [3, 6, 3, 120, 12] },
         { nombre: 'hs-cTn I (Access; Beckman Coulter)', valores: [4, 5, 4, 50, 15] },
         { nombre: 'hs-cTn I (Clarity; Singulex)', valores: [1, 2, 1, 30, 6] },
