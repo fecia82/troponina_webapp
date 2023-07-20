@@ -43,13 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function calcularCategoria(concentracion0h, concentracion1h, valores) {
-        if (concentracion0h < valores[0] || (concentracion0h < valores[1] && Math.abs(concentracion1h - concentracion0h) < valores[2])) {
+        if (concentracion0h < valores[0] && Math.abs(concentracion1h - concentracion0h) < valores[1]) {
             return 'rule-out';
-        } else if (concentracion0h >= valores[3] || Math.abs(concentracion1h - concentracion0h) >= valores[4]) {
+        } else if (concentracion0h >= valores[2] || Math.abs(concentracion1h - concentracion0h) >= valores[3]) {
             return 'rule-in';
         } else {
             return 'observation';
         }
+    }
+
     }
 });
 
