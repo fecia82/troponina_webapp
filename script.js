@@ -17,9 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
         { nombre: 'hs-cTn I (TriageTrue; Quidel)', valores: [4, 5, 3, 60, 8] }
     ];
 
-    opciones.forEach((opcion, index) => {
+    opciones.forEach(opcion => {
         const opt = document.createElement('option');
-        opt.value = index;
+        opt.value = opcion.valores.join(',');
         opt.textContent = opcion.nombre;
         tipo.appendChild(opt);
     });
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const concentracion0h = parseFloat(document.getElementById('concentracion_0h').value);
         const concentracion1h = parseFloat(document.getElementById('concentracion_1h').value);
-        const valores = opciones[tipo.value].valores;
+        const valores = tipo.value.split(',').map(val => parseFloat(val));
 
         const categoria = calcularCategoria(concentracion0h, concentracion1h, valores);
 
@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
         resultadoDiv.className = categoria;
         resultadoDiv.textContent = categoria === 'rule-out' ? 'Rule-out' : (categoria === 'rule-in' ? 'Rule-in' : 'Observación');
 
-        // Mostrar el modal
         const modal = document.getElementById('modal');
         modal.classList.remove('hidden');
     });
@@ -53,14 +52,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Cerrar el modal al hacer clic en la "X"
 document.getElementById('close').addEventListener('click', () => {
     document.getElementById('modal').classList.add('hidden');
 });
 
-// Cerrar el modal y reiniciar el formulario al hacer clic en "Calcular otro paciente"
 document.getElementById('recalcular').addEventListener('click', () => {
     document.getElementById('modal').classList.add('hidden');
     document.getElementById('form').reset();
 });
-
