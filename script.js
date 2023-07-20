@@ -17,9 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
         { nombre: 'hs-cTn I (TriageTrue; Quidel)', valores: [4, 5, 3, 60, 8] }
     ];
 
-    opciones.forEach(opcion => {
+    opciones.forEach((opcion, index) => {
         const opt = document.createElement('option');
-        opt.value = opcion.valores;
+        opt.value = index;
         opt.textContent = opcion.nombre;
         tipo.appendChild(opt);
     });
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const concentracion0h = parseFloat(document.getElementById('concentracion_0h').value);
         const concentracion1h = parseFloat(document.getElementById('concentracion_1h').value);
-        const valores = tipo.value.split(',').map(parseFloat);
+        const valores = opciones[tipo.value].valores;
 
         const categoria = calcularCategoria(concentracion0h, concentracion1h, valores);
 
@@ -43,15 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function calcularCategoria(concentracion0h, concentracion1h, valores) {
-        if (concentracion0h < valores[0] && Math.abs(concentracion1h - concentracion0h) < valores[1]) {
+        if (concentracion0h < valores[0] && Math.abs(concentracion1h - concentracion0h) < valores[2]) {
             return 'rule-out';
-        } else if (concentracion0h >= valores[2] || Math.abs(concentracion1h - concentracion0h) >= valores[3]) {
+        } else if (concentracion0h >= valores[3] || Math.abs(concentracion1h - concentracion0h) >= valores[4]) {
             return 'rule-in';
         } else {
             return 'observation';
         }
-    }
-
     }
 });
 
@@ -65,3 +63,4 @@ document.getElementById('recalcular').addEventListener('click', () => {
     document.getElementById('modal').classList.add('hidden');
     document.getElementById('form').reset();
 });
+
